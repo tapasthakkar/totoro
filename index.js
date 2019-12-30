@@ -113,34 +113,18 @@ function populateRouter(versions) {
 }
 
 function constructRoute(endpoint) {
-    switch (endpoint.config.method) {
-        case consts.HTTP_GET:
-            winston.debug('Adding route \'' + endpoint.config.method, ' /' + endpoint.apiVersion + endpoint.config.route + '\'');
-            router.get('/' + endpoint.apiVersion + endpoint.config.route, function(req, res, next) {
-                endpoint.config.implementation(endpoint.apiVersion, req, res, next);
-            });
-            break;
-        case consts.HTTP_POST:
-            winston.debug('Adding route \'' + endpoint.config.method, ' /' + endpoint.apiVersion + endpoint.config.route + '\'');
-            router.post('/' + endpoint.apiVersion + endpoint.config.route, urlencodedParser, function(req, res, next) {
-                endpoint.config.implementation(endpoint.apiVersion, req, res, next);
-            });
-            break;
-        case consts.HTTP_DELETE:
-            winston.debug('Adding route \'' + endpoint.config.method, ' /' + endpoint.apiVersion + endpoint.config.route + '\'');
-            router.delete('/' + endpoint.apiVersion + endpoint.config.route, function(req, res, next) {
-                endpoint.config.implementation(endpoint.apiVersion, req, res, next);
-            });
-            break;
-        case consts.HTTP_PUT:
-            winston.debug('Adding route \'' + endpoint.config.method, ' /' + endpoint.apiVersion + endpoint.config.route + '\'');
-            router.put('/' + endpoint.apiVersion + endpoint.config.route, function(req, res, next) {
-                endpoint.config.implementation(endpoint.apiVersion, req, res, next);
-            });
-            break;
-        default:
-            winston.debug('HTTP Method not recognised! Not adding endpoint \'' + endpoint.config.method, ' /' + endpoint.apiVersion + endpoint.config.route + '\'');
+    let apiUrl = `/${endpoint.apiVersion}${endpoint.config.route}`;
+
+    if (!Object.values(consts).includes(endpoint.config.method.toLowerCase())) {
+        winston.error(`HTTP Method not recognised! '${endpoint.config.method}' ${apiUrl}`);
+        return;
     }
+
+    winston && winston.debug(`Adding route '${endpoint.config.method}' ${apiUrl}`);
+    
+    router[endpoint.config.method.toLowerCase()](apiUrl, (req, res, next) => {
+        req.apiVersion = endpoint.apiVersion; return next();
+    }, endpoint.config.implementation);
 }
 
 module.exports = {
