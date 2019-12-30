@@ -1,3 +1,8 @@
+**Added Middleware Compatibility.**
+==================================
+
+	You can now pass the Array in endpoints.implementation 
+
 **totoro-node**
 ===============
 
@@ -39,12 +44,12 @@ Usage
                     method: "GET",
                     active: true, // this parameter are optional but the default value is true when not specified
                     deprecated: false, // this parameter are optional but the default value is false when not specified
-                    implementation: originalImplementationFunction
+                    implementation: [middleware-1, middleware-2, OriginalImplementationFunction]
                 },
                 {
                     route: "/another/test/endpoint",
                     method: "POST",
-                    implementation: anotherImplementationFunction
+                    implementation: [middleware-1, middleware-2, anotherImplementationFunction]
                 }
             ]
         },
@@ -53,7 +58,7 @@ Usage
                 {
                     route: "/test/endpoint",
                     method: "GET",
-                    implementation: overridingOriginalImplementationFunction
+                    implementation: [middleware-1, middleware-2, overridingOriginalImplementationFunction]
                 }
             ]
         }
