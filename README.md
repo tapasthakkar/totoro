@@ -4,8 +4,9 @@
 *Added Middleware Compatibility.*
 ==================================
 
-You can now pass the Array in endpoints.implementation 
-	
+	You can now pass the Array in endpoints.implementation 
+
+
 
 Totoro is a Node.js module to help simplify route management and reduce code duplication for multiple API versions. Totoro will keep you dry!
 
