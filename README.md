@@ -1,8 +1,5 @@
-**totoro-node**
+**totoro-node > Added Middleware Compatibility.**
 ===============
-
-*Added Middleware Compatibility.*
-==================================
 
 	You can now pass the Array in endpoints.implementation 
 
